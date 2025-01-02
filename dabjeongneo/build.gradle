@@ -1,9 +1,11 @@
 plugins {
-    id("org.springframework.boot") version "2.7.16"
+    id("org.springframework.boot") version "2.7.18"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.jetbrains.kotlin.jvm") version "1.9.0" // Kotlin JVM 플러그인
     id("org.jetbrains.kotlin.plugin.spring") version "1.9.0" // Spring 관련 Kotlin 플러그인
-}
+    id 'org.jetbrains.kotlin.plugin.jpa' version "1.9.0" // 코틀린 jpa
+ }
+
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
@@ -65,6 +67,7 @@ kotlin {
 }
 
 allOpen {
+    annotation("javax.persistence.Entity") // Jakarta 대신 javax 패키지 사용 가능성 점검
     annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.MappedSuperclass")
     annotation("jakarta.persistence.Embeddable")
