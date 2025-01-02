@@ -1,17 +1,19 @@
 package com.example.studykotlin.domain.user.domain
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+
+import com.example.studykotlin.domain.InterviewQuestion.domain.InterviewQuestion
+import javax.persistence.*
 
 @Entity
 class User(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     val email: String,
     val password: String,
-    val role: String
+    val role: String,
+    @OneToMany
+    var interviewQuestions: MutableList<InterviewQuestion> = mutableListOf(),
+
     )
  {
 
