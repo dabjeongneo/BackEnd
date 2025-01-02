@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mdm
+    username: ${db-user:root}
+    password: ${password:1234}
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    logging:
+      level:
+        org.hibernate.SQL: DEBUG
+        org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+  redis:
+    host: 3.37.25.126
+    port: 6379
+    password: ${redis_pw:1234}
+
+jwt:
+  header: Authorization
+  prefix: Bearer
+  secret: ${jwt_secret:asdfadsafsf}
+  access-exp: 12000
+  refresh-exp:  24000
+
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail_user:jeaminruy@gmail.com}
+    password: ${app_pw:cuth uyaz tggw qkhf}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
