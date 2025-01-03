@@ -1,12 +1,7 @@
 package com.example.studykotlin.domain.InterviewQuestion.domain
 
 import com.example.studykotlin.domain.user.domain.User
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.ManyToOne
-import javax.persistence.OneToMany
+import javax.persistence.*
 
 @Entity
 class InterviewQuestion(
@@ -14,6 +9,7 @@ class InterviewQuestion(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long,
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     var user: User,
     var question: String? = null,
 ) {
