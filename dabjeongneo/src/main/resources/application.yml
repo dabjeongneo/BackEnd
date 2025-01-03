@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mdm
-    username: root
-    password: 1234
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
 
   jpa:
     database: mysql
@@ -20,32 +20,23 @@ spring:
     property-naming-strategy: SNAKE_CASE
 
   redis:
-    host: 3.37.25.126
+    host: 127.0.0.1 #이 주소는 네트워크 상에서 항상 자신의 컴퓨터를 가리킴
     port: 6379
-    password: 1234
+    password: ${REDIS_PASSWORD}
 
 jwt:
   header: Authorization
   prefix: Bearer
-  secret: asdf
+  secret: ${JWT_SECRET}
   access-exp: 12000
-  refresh-exp:  24000
+  refresh-exp: 24000
 
-cloud:
-  aws:
-    credentials:
-      accessKey: AKIA4IM3HBCGAJ76ENIB
-      secretKey: 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
-    s3:
-      bucket: demu-s3-bucket
-    region:
-      static: ap-northeast-2
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username: jeaminruy@gmail.com
-    password: cuth uyaz tggw qkhf
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
