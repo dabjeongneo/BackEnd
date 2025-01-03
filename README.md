@@ -1,2 +1,2 @@
-# study-kotlin-spring
-코프링 연습
+# kotlin-spring-project
+코프링 프로젝트
