@@ -1,7 +1,7 @@
 package com.example.studykotlin.global.Auth
 
 import com.example.studykotlin.domain.user.domain.repository.UserRepostiory
-import com.example.studykotlin.global.error.UserNotFoundException
+import com.example.studykotlin.global.exception.UserNotFoundException
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
