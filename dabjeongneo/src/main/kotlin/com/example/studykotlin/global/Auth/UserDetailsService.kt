@@ -11,7 +11,7 @@ class UserDetailsService(
     val userRepostiory: UserRepostiory
 ):UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
-        return userRepostiory.findByEmail(username)?: throw UserNotFoundException()
+        return userRepostiory.findByEmail(username)?: throw UserNotFoundException.EXCEPTION
     }
 
 }
