@@ -43,3 +43,8 @@ jwt:
           starttls:
             enable: true
           auth: true
+logging:
+  level:
+    root: INFO
+    com.example.studykotlin: DEBUG
+

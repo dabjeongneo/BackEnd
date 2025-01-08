@@ -1,4 +1,4 @@
-package com.example.studykotlin.global.error
+package com.example.studykotlin.global.error.exception
 
 enum class ErrorCode(
     val status: Int,
