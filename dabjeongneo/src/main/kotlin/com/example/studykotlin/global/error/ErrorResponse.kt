@@ -6,11 +6,15 @@ class ErrorResponse private constructor(
     val status: Int,
     val message: String
 ){
-    fun of(status: Int,message: String): ErrorResponse {
-        return ErrorResponse(status, message)
-    }
+    companion object{
+        @JvmStatic
+        fun of(status: Int,message: String): ErrorResponse {
+            return ErrorResponse(status, message)
+        }
 
-    fun of(errorCode: ErrorCode): ErrorResponse {
-        return ErrorResponse(errorCode.status,errorCode.message)
+        @JvmStatic
+        fun of(errorCode: ErrorCode): ErrorResponse {
+            return ErrorResponse(errorCode.status,errorCode.message)
+        }
     }
 }
