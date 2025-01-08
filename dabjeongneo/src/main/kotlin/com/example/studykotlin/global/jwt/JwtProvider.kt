@@ -1,5 +1,6 @@
 package com.example.studykotlin.global.jwt
 
+import com.example.studykotlin.global.exception.ExpiredTokenExcpetion
 import com.example.studykotlin.global.exception.InvalidTokenExcpetion
 import com.example.studykotlin.global.jwt.response.TokenResponse
 import io.jsonwebtoken.Claims
@@ -7,10 +8,11 @@ import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
-@Component
+@Service
 class JwtProvider(
     val jwtProperties: JwtProperties
 ) {
@@ -74,7 +76,7 @@ class JwtProvider(
         val claims = getBody(parseToken(token))
 
         if(claims.expiration.before(Date())) {
-            throw InvalidTokenExcpetion.EXCEPTION
+            throw ExpiredTokenExcpetion.EXCEPTION
         }
     }
 
