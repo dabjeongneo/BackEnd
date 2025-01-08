@@ -13,7 +13,7 @@ class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     val email: String,
-    val password: String,
+    private val password: String,
     val role: Role,
     @OneToMany(mappedBy = "user") // mappedBy 쓴클래스가 조원(안쓴쪽이 주장) 조원은 조회밖에 못함.
     var interviewQuestions: MutableList<InterviewQuestion> = mutableListOf()
