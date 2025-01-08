@@ -2,11 +2,9 @@ package com.example.studykotlin.global.jwt
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
-import java.util.*
-import javax.annotation.PostConstruct
 
 @Configuration
-class JwtPropoties(
+class JwtProperties(
     //${} 자바와 처리방법이 달라서 이스케이프 처리 \ <- 이걸 붙여야 함
     @Value("\${jwt.header}")
     val header: String,

@@ -4,5 +4,7 @@ enum class ErrorCode(
     val status: Int,
     val message: String
 ) {
-    USER_NOT_FOUND(404,"User not found")
+    USER_NOT_FOUND(404,"User not found"),
+    INVALID_TOKEN(401,"Authorization token is Invalid or missing"),
+    EXPIRED_TOKEN(401,"Token expired")
 }
