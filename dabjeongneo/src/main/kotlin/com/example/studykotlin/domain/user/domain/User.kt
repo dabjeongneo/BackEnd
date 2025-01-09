@@ -14,7 +14,8 @@ class User(
     val id: Long? = null,
     val email: String,
     private val password: String,
-    val role: Role,
+    val schoolId: Int,
+    val role: Role ?= Role.USER,
     @OneToMany(mappedBy = "user") // mappedBy 쓴클래스가 조원(안쓴쪽이 주장) 조원은 조회밖에 못함.
     var interviewQuestions: MutableList<InterviewQuestion> = mutableListOf()
     ) : UserDetails{
@@ -22,7 +23,7 @@ class User(
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         var authorities = mutableListOf<GrantedAuthority>()
-        authorities.add(SimpleGrantedAuthority(role.key))
+        authorities.add(SimpleGrantedAuthority(role!!.key))
         return authorities
     }
 
