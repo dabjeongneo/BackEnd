@@ -9,5 +9,6 @@ enum class ErrorCode(
     EXPIRED_TOKEN(401,"Token expired"),
     EAMIL_ALREADY_EXIST(409,"email already exists"),
     SCHOOL_ID_ALREADY_EXIST(409,"school id already exists"),
+    PASSWORD_MISMATCH(40,"password mis match"),
 
 }
