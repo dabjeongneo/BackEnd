@@ -4,11 +4,11 @@ import com.example.studykotlin.global.error.exception.ErrorCode
 
 class ErrorResponse private constructor(
     val status: Int,
-    val message: String
+    val message: String?
 ){
     companion object{
         @JvmStatic
-        fun of(status: Int,message: String): ErrorResponse {
+        fun of(status: Int,message: String?): ErrorResponse {
             return ErrorResponse(status, message)
         }
 
