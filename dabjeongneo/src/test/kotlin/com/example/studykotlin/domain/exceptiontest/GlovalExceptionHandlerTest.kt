@@ -3,10 +3,13 @@ package com.example.studykotlin.domain.exceptiontest
 import com.example.studykotlin.domain.exceptiontest.controller.TestController
 import com.example.studykotlin.global.error.GlobalExceptionHandler
 import com.example.studykotlin.global.error.exception.ErrorCode
+import com.example.studykotlin.global.jwt.JwtProvider
+import com.example.studykotlin.global.jwt.JwtReissueUtil
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
@@ -19,6 +22,12 @@ class GlovalExceptionHandlerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc // HTTP 요청을 보내고 응답을 확인하는데 사용됨
             // 나중에 초기화 되지만, 꼭 초기화될 객체(null 처리 안해도 됨.)
+
+    @MockBean
+    private lateinit var jwtProvider: JwtProvider
+
+    @MockBean
+    private lateinit var jwtReissueUtil: JwtReissueUtil
 
     @Test
     @WithMockUser(username = "test", roles = ["USER"], password = "1234", )
