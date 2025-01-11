@@ -10,13 +10,13 @@ class UserFacade(
 ) {
 
     fun checkByEmail(email: String){
-        if(userRepostiory.findByEmail(email) == null){
+        if(userRepostiory.findByEmail(email) != null){
             throw SchoolIdAlreadyExistExcpetion.EXCPETION
         }
     }
 
     fun checkBySchoolId(schoolId: Int){
-        if(userRepostiory.findBySchoolId(schoolId) == null){
+        if(userRepostiory.findBySchoolId(schoolId) != null){
             throw SchoolIdAlreadyExistExcpetion.EXCPETION
         }
     }

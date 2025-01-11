@@ -17,6 +17,11 @@ class JwtFilter(
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
 
+        if(isExcloudUrl(request.requestURI)){
+            doFilter(request, response, filterChain)
+            return
+        }
+
         val token = jwtProvider.revolveToken(request)
         jwtProvider.validateToken(token)
 
@@ -26,4 +31,10 @@ class JwtFilter(
         doFilter(request,response,filterChain)
 
     }
+
+    fun isExcloudUrl(url : String):Boolean {
+        var regex = "/public/**".replace("**",".*").toRegex()
+        return url.matches(regex)
+    }
+
 }
