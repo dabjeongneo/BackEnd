@@ -44,7 +44,7 @@ class SecurityConfig(
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests()
-            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/CLUBLEADER/**").hasRole("CLUBLEADER")
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight 요청 허용
             .antMatchers("/**").permitAll()
             .and()
