@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import javax.servlet.http.HttpServletResponse
 
 @Configuration
 @EnableWebSecurity
@@ -47,6 +48,14 @@ class SecurityConfig(
             .antMatchers("/CLUBLEADER/**").hasRole("CLUBLEADER")
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight 요청 허용
             .antMatchers("/**").permitAll()
+            .and()
+            .logout()
+            .logoutUrl("/logout")
+            .logoutSuccessHandler { _, response, _ ->
+                response.contentType = "application/json"
+                response.writer.write("{\"message\": \"Logout successful\"}")
+                response.status = HttpServletResponse.SC_OK
+            }
             .and()
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(globalExceptionFilter, JwtFilter::class.java)

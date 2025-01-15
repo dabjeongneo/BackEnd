@@ -21,9 +21,8 @@ class JwtReissueUtil(
     }
 
     fun tokenReissueByRefreshToken(refreshToken: String): TokenResponse{
-        val username = SecurityContextHolder.getContext().authentication.name
 
-        if((!isRefreshToken(refreshToken)) || jwtProvider.isRefreshTokenExpired(username)){
+        if((!isRefreshToken(refreshToken)) || jwtProvider.isRefreshTokenExpired(refreshToken)){
             throw InvalidTokenExcpetion.EXCEPTION
         }
 

@@ -58,6 +58,10 @@ dependencies {
     // Spring Context
     implementation("org.springframework:spring-context")
 
+    //jackson
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")  // Jackson Kotlin 모듈
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0") // Jackson 데이터 바인딩
+
 
 }
 

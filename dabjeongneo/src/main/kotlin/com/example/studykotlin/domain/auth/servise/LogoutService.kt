@@ -20,8 +20,8 @@ class LogoutService(
         var now = Date()
         redisService.save(accessToken,"logout",(now.time - expiration.time))
 
-        val username = SecurityContextHolder.getContext().authentication.name
-        redisService.deleteByKey(username) // redis 에 저장되어 있던 refreshToken 삭제
+        val refreshToken = redisService.getValueByKey(accessToken)
+        redisService.deleteByKey(refreshToken!!) // redis 에 저장되어 있던 refreshToken 삭제
     }
 
 }

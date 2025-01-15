@@ -27,6 +27,7 @@ class JwtFilter(
         jwtProvider.validateToken(token)
 
         if(jwtProvider.isAccessTokenLogout(token)){
+            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             throw ExpiredTokenExcpetion.EXCEPTION
         }
 

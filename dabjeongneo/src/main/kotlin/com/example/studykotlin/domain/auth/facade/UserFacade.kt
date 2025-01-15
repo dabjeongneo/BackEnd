@@ -3,23 +3,23 @@ package com.example.studykotlin.domain.auth.facade
 import com.example.studykotlin.domain.ClubReader.repostiory.ClubReaderRepository
 import com.example.studykotlin.domain.auth.excpetion.EmailAlreadyExistException
 import com.example.studykotlin.domain.auth.excpetion.SchoolIdAlreadyExistExcpetion
-import com.example.studykotlin.domain.user.domain.repository.UserRepostiory
+import com.example.studykotlin.domain.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
 class UserFacade(
-    val userRepostiory: UserRepostiory,
+    val userRepository: UserRepository,
     val clubReaderRepository: ClubReaderRepository
 ) {
 
     fun checkByEmail(email: String){
-        if(userRepostiory.findByEmail(email) != null){
+        if(userRepository.findByEmail(email) != null){
             throw EmailAlreadyExistException.EXCPETION
         }
     }
 
     fun checkBySchoolId(schoolId: Int){
-        if(userRepostiory.findBySchoolId(schoolId) != null){
+        if(userRepository.findBySchoolId(schoolId) != null){
             throw SchoolIdAlreadyExistExcpetion.EXCPETION
         }
     }

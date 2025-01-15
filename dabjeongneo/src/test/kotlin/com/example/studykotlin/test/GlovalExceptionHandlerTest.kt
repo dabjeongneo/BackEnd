@@ -1,6 +1,6 @@
-package com.example.studykotlin.domain.test
+package com.example.studykotlin.test
 
-import com.example.studykotlin.domain.test.controller.TestController
+import com.example.studykotlin.test.testcontroller.TestController
 import com.example.studykotlin.global.error.GlobalExceptionHandler
 import com.example.studykotlin.global.error.exception.ErrorCode
 import com.example.studykotlin.global.jwt.JwtProvider
@@ -29,7 +29,7 @@ class GlovalExceptionHandlerTest {
     private lateinit var jwtReissueUtil: JwtReissueUtil
 
     @Test
-    @WithMockUser(username = "test", roles = ["USER"], password = "1234", ) //given
+    @WithMockUser(username = "test1", roles = ["USER"], password = "1111") //given
     fun `shold return status 404 and message User_Not_found`(){
 
         //when

@@ -1,4 +1,4 @@
-package com.example.studykotlin.domain.test.controller
+package com.example.studykotlin.test.testcontroller
 
 import com.example.studykotlin.global.exception.UserNotFoundException
 import org.springframework.web.bind.annotation.GetMapping

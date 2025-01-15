@@ -20,11 +20,12 @@ class JwtProvider(
     val redisService: RedisService
 ) {
     fun createToken(username: String): TokenResponse {
-        return TokenResponse(
-            createAccessToken(username),
-            createRefreshToken(username)
-        )
 
+        val accessToken = createAccessToken(username)
+        val refreshToken = createRefreshToken(username)
+        redisService.save(accessToken,refreshToken,jwtProperties.accessExp)
+
+        return TokenResponse(accessToken,refreshToken)
     }
 
     fun createAccessToken(username: String): String {
@@ -42,13 +43,14 @@ class JwtProvider(
     fun createRefreshToken(username: String): String {
         val now: Date = Date()
         val refreshToken= Jwts.builder()
+            .claim("type","refresh")
             .setSubject(username)
             .signWith(SignatureAlgorithm.HS256, jwtProperties.secret)
             .setIssuedAt(now)
             .setExpiration(Date(now.time + jwtProperties.refreshExp*1000))
             .compact()
 
-        redisService.save(username,refreshToken,jwtProperties.refreshExp)
+        redisService.save(refreshToken,"refresh",jwtProperties.refreshExp)
 
         return refreshToken
     }
@@ -96,8 +98,8 @@ class JwtProvider(
         }
     }
 
-    fun isRefreshTokenExpired(username: String):Boolean{
-        if(redisService.getValueByKey(username) == null){
+    fun isRefreshTokenExpired(refreshToken: String):Boolean{
+        if(redisService.getValueByKey(refreshToken) == null){
             return true
         }else{
             return false
