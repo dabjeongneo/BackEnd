@@ -91,11 +91,9 @@ class JwtProvider(
     }
 
     fun isAccessTokenLogout(token: String):Boolean{
-        if(redisService.getValueByKey(token)=="logout"){
-            return true
-        }else{
-            return false
-        }
+
+        return redisService.getValueByKey("$token for black list") != null
+
     }
 
     fun isRefreshTokenExpired(refreshToken: String):Boolean{

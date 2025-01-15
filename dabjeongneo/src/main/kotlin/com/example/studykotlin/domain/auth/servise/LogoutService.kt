@@ -15,13 +15,13 @@ class LogoutService(
     fun excute(request: HttpServletRequest){
 
         val accessToken = jwtProvider.revolveToken(request)
-        // 만료까지 남은시간 구하기 = 현재시간 - 엑세스 만료시간
+        // 만료까지 남은시간 구하기 = 엑세스만료시간 - 현재시간
         val expiration = jwtProvider.getBody(jwtProvider.parseToken(accessToken)).expiration
         var now = Date()
-        redisService.save(accessToken,"logout",(now.time - expiration.time))
+        redisService.save("$accessToken for black list","logout",(expiration.time - now.time))
 
-        val refreshToken = redisService.getValueByKey(accessToken)
-        redisService.deleteByKey(refreshToken!!) // redis 에 저장되어 있던 refreshToken 삭제
+        val refreshToken = redisService.getValueByKey(accessToken)?:throw RuntimeException()
+        redisService.deleteByKey(refreshToken) // redis 에 저장되어 있던 refreshToken 삭제
     }
 
 }

@@ -50,11 +50,11 @@ class SecurityConfig(
             .antMatchers("/**").permitAll()
             .and()
             .logout()
-            .logoutUrl("/logout")
+            .logoutUrl("/this-is-just-return-logout-successful") // 로그아웃 요청 경로
             .logoutSuccessHandler { _, response, _ ->
+                response.status = HttpServletResponse.SC_OK // 로그아웃 성공 시 200 상태 코드만 반환
+                response.writer.write("{\"message\": \"Logout successful\"}") // 응답 메시지
                 response.contentType = "application/json"
-                response.writer.write("{\"message\": \"Logout successful\"}")
-                response.status = HttpServletResponse.SC_OK
             }
             .and()
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)

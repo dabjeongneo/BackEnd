@@ -67,7 +67,7 @@ class AuthTest {
             status { isUnauthorized() }
         }
         //when
-        mockMvc.post("public/reissue"){
+        mockMvc.post("/public/reissue"){
             contentType = MediaType.APPLICATION_JSON
             content = """{refreshToken:"$refreshToken"}"""
         }
