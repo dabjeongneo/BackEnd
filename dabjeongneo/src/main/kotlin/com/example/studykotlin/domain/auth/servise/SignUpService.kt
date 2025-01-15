@@ -1,6 +1,7 @@
 package com.example.studykotlin.domain.auth.servise
 
 import com.example.studykotlin.domain.auth.controller.dto.request.SignUpRequest
+import com.example.studykotlin.domain.auth.domain.refreshToken.RefreshToken
 import com.example.studykotlin.domain.auth.facade.UserFacade
 import com.example.studykotlin.domain.user.domain.User
 import com.example.studykotlin.domain.user.domain.repository.UserRepostiory
@@ -36,6 +37,7 @@ class SignUpService(
         ))
 
         return jwtProvider.createToken(request.email)
+
 
     }
 }

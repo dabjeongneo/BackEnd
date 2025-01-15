@@ -1,13 +1,12 @@
-package com.example.studykotlin.domain.exceptiontest
+package com.example.studykotlin.domain.test
 
-import com.example.studykotlin.domain.exceptiontest.controller.TestController
+import com.example.studykotlin.domain.test.controller.TestController
 import com.example.studykotlin.global.error.GlobalExceptionHandler
 import com.example.studykotlin.global.error.exception.ErrorCode
 import com.example.studykotlin.global.jwt.JwtProvider
 import com.example.studykotlin.global.jwt.JwtReissueUtil
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
@@ -30,11 +29,16 @@ class GlovalExceptionHandlerTest {
     private lateinit var jwtReissueUtil: JwtReissueUtil
 
     @Test
-    @WithMockUser(username = "test", roles = ["USER"], password = "1234", )
+    @WithMockUser(username = "test", roles = ["USER"], password = "1234", ) //given
     fun `shold return status 404 and message User_Not_found`(){
+
+        //when
         mockMvc.get("/test/user-not-found") // GET 요청을 이 url 로 보냄
             .andExpect {
                 status { isNotFound() } // 실제 HTTP 상태코드가 isNotFound() 인지
+
+
+                //then
                 // $ 는 json 객체의 루트를 의미
                 jsonPath("$.status") { value(ErrorCode.USER_NOT_FOUND.status) }
                 jsonPath("$.message") { value(ErrorCode.USER_NOT_FOUND.message) }

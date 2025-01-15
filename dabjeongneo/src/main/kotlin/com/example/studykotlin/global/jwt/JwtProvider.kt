@@ -1,5 +1,6 @@
 package com.example.studykotlin.global.jwt
 
+import com.example.studykotlin.domain.auth.servise.RedisService
 import com.example.studykotlin.global.exception.ExpiredTokenExcpetion
 import com.example.studykotlin.global.exception.InvalidTokenExcpetion
 import com.example.studykotlin.global.jwt.response.TokenResponse
@@ -7,6 +8,7 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import java.util.*
@@ -14,7 +16,8 @@ import javax.servlet.http.HttpServletRequest
 
 @Service
 class JwtProvider(
-    val jwtProperties: JwtProperties
+    val jwtProperties: JwtProperties,
+    val redisService: RedisService
 ) {
     fun createToken(username: String): TokenResponse {
         return TokenResponse(
@@ -44,8 +47,13 @@ class JwtProvider(
             .setIssuedAt(now)
             .setExpiration(Date(now.time + jwtProperties.refreshExp*1000))
             .compact()
+
+        redisService.save(username,refreshToken,jwtProperties.refreshExp)
+
         return refreshToken
     }
+
+
 
     fun revolveToken(request: HttpServletRequest): String{
         val bearerToken = request.getHeader(jwtProperties.header)
@@ -79,5 +87,22 @@ class JwtProvider(
             throw ExpiredTokenExcpetion.EXCEPTION
         }
     }
+
+    fun isAccessTokenLogout(token: String):Boolean{
+        if(redisService.getValueByKey(token)=="logout"){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    fun isRefreshTokenExpired(username: String):Boolean{
+        if(redisService.getValueByKey(username) == null){
+            return true
+        }else{
+            return false
+        }
+    }
+
 
 }

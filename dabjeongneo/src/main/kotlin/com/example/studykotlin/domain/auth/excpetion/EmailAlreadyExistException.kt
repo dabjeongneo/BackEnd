@@ -6,6 +6,6 @@ import com.example.studykotlin.global.error.exception.ErrorCode
 class EmailAlreadyExistException : DabjeongneoException(ErrorCode.EAMIL_ALREADY_EXIST) {
     companion object {
         @JvmStatic
-        val  EXCPETION = EmailAlreadyExistException()
+        val EXCPETION = EmailAlreadyExistException()
     }
 }
