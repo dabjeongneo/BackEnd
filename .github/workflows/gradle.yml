@@ -35,6 +35,21 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
+      
+      - name: Print working directory
+        run: pwd  # 현재 실행되는 디렉토리 출력
+
+      - name: List all files
+        run: ls -la  # 현재 디렉토리에 어떤 파일이 있는지 확인
+
+      - name: Move to project root
+        run: cd dabjeongneo && ls -la  # 프로젝트 루트로 이동 후 파일 확인
+
+      - name: Grant execute permission for gradlew
+        run: cd dabjeongneo && chmod +x gradlew  # 실행 권한 부여
+
+      - name: Build with Gradle Wrapper
+        run: cd dabjeongneo && ./gradlew build
 
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
