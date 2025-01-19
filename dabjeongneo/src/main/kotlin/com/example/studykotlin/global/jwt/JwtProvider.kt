@@ -1,5 +1,6 @@
 package com.example.studykotlin.global.jwt
 
+import com.example.studykotlin.domain.auth.servise.RedisService
 import com.example.studykotlin.global.exception.ExpiredTokenExcpetion
 import com.example.studykotlin.global.exception.InvalidTokenExcpetion
 import com.example.studykotlin.global.jwt.response.TokenResponse
@@ -7,6 +8,7 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import java.util.*
@@ -14,14 +16,16 @@ import javax.servlet.http.HttpServletRequest
 
 @Service
 class JwtProvider(
-    val jwtProperties: JwtProperties
+    val jwtProperties: JwtProperties,
+    val redisService: RedisService
 ) {
     fun createToken(username: String): TokenResponse {
-        return TokenResponse(
-            createAccessToken(username),
-            createRefreshToken(username)
-        )
 
+        val accessToken = createAccessToken(username)
+        val refreshToken = createRefreshToken(username)
+        redisService.save(accessToken,refreshToken,jwtProperties.accessExp)
+
+        return TokenResponse(accessToken,refreshToken)
     }
 
     fun createAccessToken(username: String): String {
@@ -39,13 +43,19 @@ class JwtProvider(
     fun createRefreshToken(username: String): String {
         val now: Date = Date()
         val refreshToken= Jwts.builder()
+            .claim("type","refresh")
             .setSubject(username)
             .signWith(SignatureAlgorithm.HS256, jwtProperties.secret)
             .setIssuedAt(now)
             .setExpiration(Date(now.time + jwtProperties.refreshExp*1000))
             .compact()
+
+        redisService.save(refreshToken,"refresh",jwtProperties.refreshExp)
+
         return refreshToken
     }
+
+
 
     fun revolveToken(request: HttpServletRequest): String{
         val bearerToken = request.getHeader(jwtProperties.header)
@@ -79,5 +89,20 @@ class JwtProvider(
             throw ExpiredTokenExcpetion.EXCEPTION
         }
     }
+
+    fun isAccessTokenLogout(token: String):Boolean{
+
+        return redisService.getValueByKey("$token for black list") != null
+
+    }
+
+    fun isRefreshTokenExpired(refreshToken: String):Boolean{
+        if(redisService.getValueByKey(refreshToken) == null){
+            return true
+        }else{
+            return false
+        }
+    }
+
 
 }

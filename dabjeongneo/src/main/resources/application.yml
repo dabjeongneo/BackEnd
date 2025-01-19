@@ -1,15 +1,15 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mdm
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    url: jdbc:mysql://localhost:3306/dabjeongneo
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:1234}
 
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     logging:
       level:
@@ -22,12 +22,14 @@ spring:
   redis:
     host: 127.0.0.1 #이 주소는 네트워크 상에서 항상 자신의 컴퓨터를 가리킴
     port: 6379
-    password: ${REDIS_PASSWORD}
+    password: asdf
+
+
 
 jwt:
   header: Authorization
   prefix: Bearer
-  secret: ${JWT_SECRET}
+  secret: ${JWT_SECRET:eaffagdgasheweasdf}
   access-exp: 12000
   refresh-exp: 24000
 
@@ -47,4 +49,5 @@ logging:
   level:
     root: INFO
     com.example.studykotlin: DEBUG
+    org.springframework.data.redis: DEBUG
 

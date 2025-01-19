@@ -4,5 +4,5 @@ enum class Role(
     val key: String
 ) {
     USER("ROLE_USER"),
-    ADIM("ROLE_ADIM")
+    CLUBREDEAR("ROLE_CLUBREADAR")
 }

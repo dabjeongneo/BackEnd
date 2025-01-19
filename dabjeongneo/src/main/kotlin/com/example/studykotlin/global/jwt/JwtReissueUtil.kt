@@ -7,21 +7,22 @@ import io.jsonwebtoken.Claims
 import org.apache.catalina.User
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 class JwtReissueUtil(
     val jwtProvider: JwtProvider,
     val jwtProperties: JwtProperties,
-    val UserDetailsService: UserDetailsService,
     private val userDetailsService: UserDetailsService
 ) {
     fun parseAndgetBodyToken(token: String):Claims {
         return jwtProvider.getBody(jwtProvider.parseToken(token))
     }
 
-    fun AccessTokenReissueByRefreshToken(refreshToken: String): TokenResponse{
-        if(!isRefreshToken(refreshToken)){
+    fun tokenReissueByRefreshToken(refreshToken: String): TokenResponse{
+
+        if((!isRefreshToken(refreshToken)) || jwtProvider.isRefreshTokenExpired(refreshToken)){
             throw InvalidTokenExcpetion.EXCEPTION
         }
 
