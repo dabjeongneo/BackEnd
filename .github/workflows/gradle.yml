@@ -50,7 +50,7 @@ jobs:
       run: chmod +x dabjeongneo/gradlew  # gradlew 실행 권한 부여
 
     - name: Build with Gradle Wrapper
-      working-directory: dabjeongneo
+      working-directory: dabjeongneo  # Gradle 빌드 디렉토리 설정
       run: ./gradlew build
 
   dependency-submission:
@@ -74,5 +74,4 @@ jobs:
         working-directory: dabjeongneo  # ✅ Gradle 프로젝트 경로 설정
 
     - name: Run Dependency Submission
-      working-directory: dabjeongneo  # ✅ 실행 경로 설정
-      run: ./gradlew dependencies --write-locks
+      run: ./gradlew dependencies --write-locks  # `working-directory` 옵션 제거
