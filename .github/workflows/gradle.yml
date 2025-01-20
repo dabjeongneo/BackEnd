@@ -53,6 +53,17 @@ jobs:
       working-directory: dabjeongneo  # Gradle 빌드 디렉토리 설정
       run: ./gradlew build
 
+    - name: Wait for MySQL to be ready
+      run: |
+        echo "Waiting for MySQL to start"
+        sleep 30
+
+    - name: Print MySQL container logs
+      run: |
+        CONTAINER_ID=$(docker ps -q --filter "ancestor=mysql:8.0")
+        echo "MySQL container logs:"
+        docker logs $CONTAINER_ID
+
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
@@ -74,4 +85,4 @@ jobs:
         working-directory: dabjeongneo  # ✅ Gradle 프로젝트 경로 설정
 
     - name: Run Dependency Submission
-      run: ./gradlew dependencies --write-locks  # `working-directory` 옵션 제거
+      run: ./gradlew dependencies --write-locks
