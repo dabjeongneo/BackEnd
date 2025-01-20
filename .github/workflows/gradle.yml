@@ -12,6 +12,22 @@ jobs:
     permissions:
       contents: read
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: dabjeongneo
+          MYSQL_USER: root
+          MYSQL_PASSWORD: 1234
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
     - uses: actions/checkout@v4
 
@@ -54,4 +70,9 @@ jobs:
     - name: Generate and submit dependency graph
       uses: gradle/actions/dependency-submission@v4
       with:
-        gradle-version: '8.9'  # Gradle 버전 명시
+        gradle-version: '8.9'
+        working-directory: dabjeongneo  # ✅ Gradle 프로젝트 경로 설정
+
+    - name: Run Dependency Submission
+      working-directory: dabjeongneo  # ✅ 실행 경로 설정
+      run: ./gradlew dependencies --write-locks
