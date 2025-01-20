@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dabjeongneo
+    url: jdbc:mysql://mysql:3306/dabjeongneo  # mysql 컨테이너와 연결
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:1234}
 
@@ -20,34 +20,31 @@ spring:
     property-naming-strategy: SNAKE_CASE
 
   redis:
-    host: 127.0.0.1 #이 주소는 네트워크 상에서 항상 자신의 컴퓨터를 가리킴
+    host: 127.0.0.1 # 로컬 Redis를 사용할 경우
     port: 6379
     password: asdf
-
-
 
 jwt:
   header: Authorization
   prefix: Bearer
-  secret: ${JWT_SECRET:eaffagdgasheweasdf}
+  secret: ${JWT_SECRET:eaffagdgasheweasdf}  # GitHub Actions에서 환경 변수로 설정
   access-exp: 12000
   refresh-exp: 24000
 
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ${MAIL_USERNAME}
+  password: ${MAIL_PASSWORD}
+  properties:
+    mail:
+      smtp:
+        starttls:
+          enable: true
+        auth: true
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-          auth: true
 logging:
   level:
     root: INFO
     com.example.studykotlin: DEBUG
     org.springframework.data.redis: DEBUG
-
