@@ -26,6 +26,16 @@ jobs:
           --health-timeout=10s
           --health-retries=3
 
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=30s
+          --health-timeout=10s
+          --health-retries=3
+
     steps:
     - uses: actions/checkout@v4
 
@@ -56,10 +66,21 @@ jobs:
         echo "Waiting for MySQL to start"
         sleep 30
 
+    - name: Wait for Redis to be ready
+      run: |
+        echo "Waiting for Redis to start"
+        sleep 30
+
     - name: Print MySQL container logs
       run: |
         CONTAINER_ID=$(docker ps -q --filter "ancestor=mysql:8.0")
         echo "MySQL container logs:"
+        docker logs $CONTAINER_ID
+
+    - name: Print Redis container logs
+      run: |
+        CONTAINER_ID=$(docker ps -q --filter "ancestor=redis:latest")
+        echo "Redis container logs:"
         docker logs $CONTAINER_ID
 
   dependency-submission:
