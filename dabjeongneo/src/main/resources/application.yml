@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/dabjeongneo  # mysql 컨테이너와 연결
+    url: jdbc:mysql://localhost:3306/dabjeongneo  # mysql 컨테이너와 연결
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:1234}
 
