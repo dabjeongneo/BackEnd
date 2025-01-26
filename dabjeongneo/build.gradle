@@ -1,0 +1,83 @@
+plugins {
+    id("org.springframework.boot") version "2.7.16"
+    id("io.spring.dependency-management") version "1.1.4"
+    id("org.jetbrains.kotlin.jvm") version "1.9.0" // Kotlin JVM 플러그인
+    id("org.jetbrains.kotlin.plugin.spring") version "1.9.0" // Spring 관련 Kotlin 플러그인
+    id 'org.jetbrains.kotlin.plugin.jpa' version "1.9.0" // 코틀린 jpa
+ }
+
+
+group = "com.example"
+version = "0.0.1-SNAPSHOT"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+
+    // JWT
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+
+    // Password Encryption
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
+    // 기본
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    compileOnly("org.projectlombok:lombok")
+    runtimeOnly("com.mysql:mysql-connector-j")
+    annotationProcessor("org.projectlombok:lombok")
+    implementation ('mysql:mysql-connector-java:8.0.33')
+    // kotlin 리플렉션
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+
+    // Kotest
+    testImplementation "io.kotest:kotest-runner-junit5:5.6.1" // Kotest 실행용
+    testImplementation "io.kotest:kotest-assertions-core:5.6.1" // Kotest Assertions (선택 사항)
+    testImplementation "io.kotest:kotest-framework-api:5.6.1" // Kotest Framework API
+
+    // 테스트
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine' // JUnit 5만 사용하도록 설정
+    }
+
+    testImplementation("org.springframework.security:spring-security-test")
+
+    // Spring Context
+    implementation("org.springframework:spring-context")
+
+    //jackson
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")  // Jackson Kotlin 모듈
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0") // Jackson 데이터 바인딩
+
+
+}
+
+tasks {
+    test {
+        useJUnitPlatform() // Kotest가 JUnit 5 기반이므로 이 설정은 그대로 유지
+    }
+}
+
+kotlin {
+    jvmToolchain(17) // Kotlin의 JVM 툴체인 설정 추가
+}
+
+allOpen {
+    annotation("javax.persistence.Entity") // Jakarta 대신 javax 패키지 사용 가능성 점검
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
+}
