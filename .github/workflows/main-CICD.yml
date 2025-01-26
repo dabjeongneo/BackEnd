@@ -109,6 +109,8 @@ jobs:
             else
               echo "Docker Compose가 이미 설치됨"
             fi
+
+            
             # Docker 비상호작용 로그인 처리
             echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
@@ -132,6 +134,10 @@ jobs:
             else
               echo "삭제할 이미지가 없습니다."
             fi
+
+            # Docker Compose 실행 전에 권한 부여
+            sudo usermod -aG docker $USER
+            newgrp docker
 
             #  Docker Compose 실행
             sudo docker-compose -f "${{ secrets.DOCKER_COMPOSE }}" up -d
