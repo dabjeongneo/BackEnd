@@ -136,4 +136,4 @@ jobs:
             fi
 
             #  Docker Compose 실행
-            sudo docker-compose -f $COMPOSE up -d
+            sudo docker-compose -f "$COMPOSE" up -d
