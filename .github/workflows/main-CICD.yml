@@ -90,7 +90,7 @@ jobs:
           key: ${{ secrets.PEM_KEY }}
           envs: GITHUB_SHA
           script: |
-
+            
             # 1️⃣ Docker & Docker Compose 설치 확인 및 설치
             if ! command -v docker &> /dev/null
             then
@@ -112,16 +112,28 @@ jobs:
               echo "Docker Compose가 이미 설치됨"
             fi
 
-            # 2️⃣ Docker 로그인
-            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        
-            # 3️⃣ docker-compose.yml 파일 생성 (COMPOSE 환경 변수를 사용)
-            echo "$COMPOSE" > docker-compose.yml
-        
-            # 4️⃣ 기존 도커 컨테이너 및 이미지 정리
-            sudo docker-compose down
-            sudo docker rm $(sudo docker ps -a -q)
-            sudo docker rmi $(sudo docker images -q)
+            # 2️⃣ Docker 비상호작용 로그인 처리
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-            # 5️⃣ 새로운 컨테이너 실행
-            sudo docker-compose up -d
+            # 3️⃣ docker-compose.yml 파일 확인
+            if [ ! -f docker-compose.yml ]; then
+              echo "docker-compose.yml 파일이 없습니다. 파일을 확인하세요."
+              exit 1
+            fi
+
+            # 4️⃣ 기존 컨테이너 제거 (컨테이너가 있을 경우에만)
+            if [ "$(docker ps -a -q)" ]; then
+              docker rm $(docker ps -a -q)
+            else
+              echo "삭제할 컨테이너가 없습니다."
+            fi
+
+            # 5️⃣ 기존 이미지 제거 (이미지가 있을 경우에만)
+            if [ "$(docker images -q)" ]; then
+              docker rmi $(docker images -q)
+            else
+              echo "삭제할 이미지가 없습니다."
+            fi
+
+            # 6️⃣ Docker Compose 실행
+            docker-compose up -d
