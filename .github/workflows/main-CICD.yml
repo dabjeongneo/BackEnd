@@ -111,15 +111,15 @@ jobs:
             else
               echo "Docker Compose가 이미 설치됨"
             fi
-
-            #  Docker 비상호작용 로그인 처리
-            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            # Docker 비상호작용 로그인 처리
+            echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
             #  docker-compose.yml 파일 확인
             if [ ! -f docker-compose.yml ]; then
               echo "docker-compose.yml 파일이 없습니다. 파일을 확인하세요."
               exit 1
             fi
+              
 
             #  기존 컨테이너 제거 (컨테이너가 있을 경우에만)
             if [ "$(docker ps -a -q)" ]; then
@@ -136,4 +136,4 @@ jobs:
             fi
 
             #  Docker Compose 실행
-            sudo docker-compose up -d
+            sudo docker-compose -f $COMPOSE up -d
