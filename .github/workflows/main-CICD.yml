@@ -70,7 +70,7 @@ jobs:
 
     - name: Build and Push Docker images
       run: |
-        docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }} .
+        docker build -f Dockerfile -t ${{ secrets.DOCKER_HUB_REPO }} .
         docker push ${{ secrets.DOCKER_HUB_REPO }}
 
   deploy:
@@ -87,7 +87,7 @@ jobs:
           host: ${{ secrets.HOST }} # 호스트 ip (ec2 사용시 퍼블릭 ipv4 ip)
           username: ubuntu
           port: 22
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.PEM_KEY }}
           envs: GITHUB_SHA
           script: |
             # 도커 로그인
