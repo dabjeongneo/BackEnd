@@ -69,6 +69,7 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
     - name: Build and Push Docker images
+      working-directory: dabjeongneo
       run: |
         docker build -f Dockerfile -t ${{ secrets.DOCKER_HUB_REPO }} .
         docker push ${{ secrets.DOCKER_HUB_REPO }}
