@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/dabjeongneo  # mysql 컨테이너와 연결
-    username: ${MYSQL_USERNAME:root}
-    password: ${MYSQL_PASSWORD:1234}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
 
   jpa:
     database: mysql
@@ -20,7 +20,7 @@ spring:
     property-naming-strategy: SNAKE_CASE
 
   redis:
-    host: 127.0.0.1 # 로컬 Redis를 사용할 경우
+    host: 127.0.0.1 # == localhost 로컬 Redis를 사용할 경우
     port: 6379
     password: asdf
 
