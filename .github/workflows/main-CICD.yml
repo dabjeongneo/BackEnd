@@ -136,5 +136,11 @@ jobs:
               echo "삭제할 이미지가 없습니다."
             fi
 
+            
+            echo "COMPOSE 경로: $COMPOSE
+
+            echo "$COMPOSE" > docker-compose.yml
+
             # Docker Compose 실행
-            sudo docker-compose -f $COMPOSE up -d
+            sudo docker-compose -f docker-compose.yml up -d
+
