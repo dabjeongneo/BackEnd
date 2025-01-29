@@ -137,7 +137,7 @@ jobs:
             fi
 
             
-            echo "COMPOSE 경로: $COMPOSE
+            echo "COMPOSE 경로: $COMPOSE"
 
             echo "$COMPOSE" > docker-compose.yml
 
