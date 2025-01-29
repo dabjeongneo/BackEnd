@@ -82,8 +82,6 @@ jobs:
     steps:
       - name: Deploy to server
         uses: appleboy/ssh-action@master
-        env:
-          COMPOSE: ${{ secrets.DOCKER_COMPOSE }}
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
@@ -137,9 +135,9 @@ jobs:
             fi
 
             
-            echo "COMPOSE 경로: $COMPOSE"
+            echo "COMPOSE 경로: ${{ secrets.DOCKER_COMPOSE }}"
 
-            echo "$COMPOSE" > docker-compose.yml
+            echo ${{ secrets.DOCKER_COMPOSE }} > docker-compose.yml
 
             # Docker Compose 실행
             sudo docker-compose -f docker-compose.yml up -d
