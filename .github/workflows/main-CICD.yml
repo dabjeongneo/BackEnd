@@ -135,9 +135,9 @@ jobs:
             fi
 
             
-            echo "COMPOSE 경로: ./docker-compose.yml"
+            echo "COMPOSE 경로: ./dabjeongnoe/docker-compose.yml"
 
 
             # Docker Compose 실행
-            sudo docker-compose -f ./docker-compose.yml up -d
+            sudo docker-compose -f ./dabjeongneo/docker-compose.yml up -d
 
