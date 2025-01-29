@@ -82,6 +82,8 @@ jobs:
     steps:
       - name: Deploy to server
         uses: appleboy/ssh-action@master
+        env:
+          COMPOSE: ${{ secrets.DOCKER_COMPOSE }}
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
@@ -135,4 +137,4 @@ jobs:
             fi
 
             # Docker Compose 실행
-            sudo docker-compose -f "${{ secrets.DOCKER_COMPOSE }}" up -d
+            sudo docker-compose -f $COMPOSE up -d
