@@ -82,8 +82,6 @@ jobs:
     steps:
       - name: Deploy to server
         uses: appleboy/ssh-action@master
-        env:
-          COMPOSE: ${{ secrets.DOCKER_COMPOSE }} 
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
@@ -114,7 +112,7 @@ jobs:
             fi
 
             echo "docker-compose.yml 파일을 생성합니다..."
-            echo "$COMPOSE" | sed 's/\\n/\n/g' > docker-compose.yml
+            echo "${{ secrets.DOCKER_COMPOSE }}" | sed 's/\\n/\n/g' > docker-compose.yml
 
             #  Docker 비상호작용 로그인 처리
             sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
