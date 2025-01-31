@@ -60,16 +60,7 @@ jobs:
     - name: Build with Gradle Wrapper
       working-directory: dabjeongneo  # Gradle 빌드 디렉토리 설정
       run: ./gradlew build
-
-    - name: Wait for MySQL to be ready
-      run: |
-        echo "Waiting for MySQL to start"
-        sleep 30
-
-    - name: Wait for Redis to be ready
-      run: |
-        echo "Waiting for Redis to start"
-        sleep 30
+      
 
     - name: Print MySQL container logs
       run: |
