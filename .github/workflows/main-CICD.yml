@@ -115,7 +115,7 @@ jobs:
             echo "${{ secrets.DOCKER_COMPOSE }}" | sed 's/\\n/\n/g' > docker-compose.yml
 
             #  Docker 비상호작용 로그인 처리
-            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
 
 
             #  기존 컨테이너 제거 (컨테이너가 있을 경우에만)
