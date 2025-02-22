@@ -32,10 +32,9 @@ class AuthTest {
 
     @BeforeEach
     fun `Jwt setup`(){
-        val mvcResult = mockMvc.post("/public/signup"){
+        val mvcResult = mockMvc.post("/students/signup"){
             contentType = MediaType.APPLICATION_JSON
-            content = """{"email":"test","password":"test","schoolId":"1112"}"""
-
+            content = """{"email":"test@test","password":"11111111","name":"유재민","school_number":"1110"}"""
         }.andExpect {
             status { isOk() }
         }.andDo { print() }
@@ -53,21 +52,21 @@ class AuthTest {
     @Test
     fun `A logged out user cannot access APIs except those starting with 'public' and cannot reissue using a refreshtoken`(){
         //given
-        mockMvc.post("/logout"){
+        mockMvc.post("/auth/logout"){
             header("Authorization", "Bearer $accessToken")
         }.andExpect {
             status { isOk() }
         }
 
         //when
-        mockMvc.post("/logout"){
+        mockMvc.post("/auth/logout"){
             header("Authorization", "Bearer $accessToken")
         }.andExpect {
             //then
             status { isUnauthorized() }
         }
         //when
-        mockMvc.post("/public/reissue"){
+        mockMvc.post("/auth/reissue"){
             contentType = MediaType.APPLICATION_JSON
             content = """{refreshToken:"$refreshToken"}"""
         }
