@@ -19,15 +19,17 @@ class SignInService(
     fun excute(request: SignInRequest): TokenResponse {
 
         val user = userRepository.findByEmail(request.email)
-        if(user == null) {
+        if (user == null) {
             throw UserNotFoundException.EXCEPTION
         }
 
-        if(!passwordEncoder.matches(request.password, user.password)) {
+        print("111111111${request.password} " +
+                "2222222222${user.password}")
+
+        if (!passwordEncoder.matches(request.password, user.password)) {
             throw PasswordMisMatchException.EXCEPTION
         }
 
         return jwtProvider.createToken(request.email)
-
     }
 }

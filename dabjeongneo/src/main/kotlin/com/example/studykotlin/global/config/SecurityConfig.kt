@@ -1,5 +1,6 @@
 package com.example.studykotlin.global.config
 
+import com.example.studykotlin.domain.user.domain.type.Role
 import com.example.studykotlin.global.error.GlobalExceptionFilter
 import com.example.studykotlin.global.jwt.JwtFilter
 import com.example.studykotlin.global.jwt.JwtProvider
@@ -44,11 +45,17 @@ class SecurityConfig(
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .authorizeHttpRequests()
-            .antMatchers("/CLUBLEADER/**").hasRole("CLUBLEADER")
-            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight 요청 허용
-            .antMatchers("/**").permitAll()
-            .and()
+            .authorizeHttpRequests() { authorize ->
+                authorize
+                        // /auth
+                    .antMatchers("auth/signin").permitAll()
+                    .antMatchers("auth/reissue").permitAll()
+                    .antMatchers("auth/logout").hasAnyAuthority(Role.STUDENT.name, Role.ADMIN.name, Role.CLUBREDEAR.name)
+                        // /students
+                    .antMatchers("students/signup").permitAll()
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight 요청 허용
+            }
+        http
             .logout()
             .logoutUrl("/this-is-just-return-logout-successful") // 로그아웃 요청 경로
             .logoutSuccessHandler { _, response, _ ->

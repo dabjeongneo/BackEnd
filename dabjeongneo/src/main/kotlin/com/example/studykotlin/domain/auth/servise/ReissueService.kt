@@ -11,9 +11,8 @@ import javax.servlet.http.HttpServletRequest
 @Service
 class ReissueService(
     val jwtReissueUtil: JwtReissueUtil,
-    val jwtProvider: JwtProvider
 ) {
-    fun excute(reissueRequest: ReissueRequest):TokenResponse{
+    fun excute(reissueRequest: ReissueRequest): TokenResponse {
         return jwtReissueUtil.tokenReissueByRefreshToken(reissueRequest.refreshToken)
     }
 }

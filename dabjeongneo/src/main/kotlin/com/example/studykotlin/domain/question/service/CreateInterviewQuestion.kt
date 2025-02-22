@@ -1,15 +1,12 @@
-package com.example.studykotlin.domain.InterviewQuestion.service
+package com.example.studykotlin.domain.question.service
 
 
-import com.example.studykotlin.domain.InterviewQuestion.controller.dto.CreateInterviewQRequest
-import com.example.studykotlin.domain.InterviewQuestion.domain.InterviewQuestion
-import com.example.studykotlin.domain.InterviewQuestion.domain.repository.InterviewQuestionRepository
-import com.example.studykotlin.domain.user.domain.User
+import com.example.studykotlin.domain.question.domain.repository.QuestionRepository
 import org.springframework.stereotype.Service
 
 @Service
 class CreateInterviewQuestion (
-    val repository: InterviewQuestionRepository
+    val repository: QuestionRepository
 ){
 //    fun createInterviewQuestion(createInterviewQRequest: CreateInterviewQRequest): Unit{
 //
