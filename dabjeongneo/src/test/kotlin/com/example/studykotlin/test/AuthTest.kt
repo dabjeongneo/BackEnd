@@ -1,18 +1,14 @@
 package com.example.studykotlin.test
 
-import com.example.studykotlin.global.config.SecurityConfig
-import com.example.studykotlin.global.jwt.JwtProperties
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
 
@@ -26,20 +22,20 @@ class AuthTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    private lateinit var accessToken:String
-    private lateinit var refreshToken:String
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
 
-
+    //통합테스트
     @BeforeEach
-    fun `Jwt setup`(){
-        val mvcResult = mockMvc.post("/students/signup"){
+    fun `Jwt setup`() {
+        val mvcResult = mockMvc.post("/students/signup") {
             contentType = MediaType.APPLICATION_JSON
             content = """{"email":"test@test","password":"11111111","name":"유재민","school_number":"1110"}"""
         }.andExpect {
             status { isOk() }
         }.andDo { print() }
-         .andReturn()
-                                                        //json 값을 key-value 를 한쌍으로 노드에 담아 트리에 저장함
+            .andReturn()
+        //json 값을 key-value 를 한쌍으로 노드에 담아 트리에 저장함
 
         val jsonResponse = mvcResult.response.contentAsString
         val jsonNode = jacksonObjectMapper.readTree(jsonResponse)
@@ -49,29 +45,30 @@ class AuthTest {
     }
 
 
+    // 인수 테스트
     @Test
-    fun `A logged out user cannot access APIs except those starting with 'public' and cannot reissue using a refreshtoken`(){
+    fun `A logged out user cannot access APIs except those starting with 'public' and cannot reissue using a refreshtoken`() {
         //given
-        mockMvc.post("/auth/logout"){
+        mockMvc.post("/auth/logout") {
             header("Authorization", "Bearer $accessToken")
         }.andExpect {
             status { isOk() }
         }
 
         //when
-        mockMvc.post("/auth/logout"){
+        mockMvc.post("/auth/logout") {
             header("Authorization", "Bearer $accessToken")
         }.andExpect {
             //then
             status { isUnauthorized() }
         }
         //when
-        mockMvc.post("/auth/reissue"){
+        mockMvc.post("/auth/reissue") {
             contentType = MediaType.APPLICATION_JSON
             content = """{refreshToken:"$refreshToken"}"""
         }
-
     }
 
-
+    //위의 2개를 합쳐서 하나의 인수 테스트로 볼수도 있다.
+    
 }
